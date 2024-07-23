@@ -11,9 +11,7 @@ export const loginMutation = async (
 
   const service = new UsersService()
 
-  const user = await service.login(email, password)
+  const response = await service.login(email, password)
 
-  return {
-    user,
-  }
+  return response
 }

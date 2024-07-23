@@ -3,6 +3,8 @@ import { z } from 'zod'
 const envSchema = z.object({
   NODE_ENV: z.string(),
   MONGODB_CONNECTION_STR: z.string(),
+  ACCESS_TOKEN_SECRET: z.string(),
+  REFRESH_TOKEN_SECRET: z.string(),
 })
 
 const parsedEnv = envSchema.safeParse(process.env)

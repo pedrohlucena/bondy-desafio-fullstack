@@ -5,6 +5,8 @@ export default gql`
   ${userTypeDefs}
 
   type AuthPayload {
+    access_token: String!
+    refresh_token: String!
     user: User!
   }
 `
