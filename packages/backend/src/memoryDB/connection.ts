@@ -1,15 +1,15 @@
 import mongoose from 'mongoose'
 import { User } from 'src/models'
 import bcrypt from 'bcrypt'
+import { env } from 'src/env'
 
 export const connection = async () => {
   const connState = mongoose.connection.readyState
 
   if (connState.valueOf() !== 1) {
-    await mongoose.connect(
-      'mongodb+srv://test:99mM35scnc@test.5wrvlov.mongodb.net/',
-      { dbName: 'test' }
-    )
+    await mongoose.connect(env.MONGODB_CONNECTION_STR, {
+      dbName: 'test',
+    })
 
     const userPassword = await bcrypt.hash('123456', 8)
 
