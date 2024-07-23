@@ -5,6 +5,8 @@
     "packages/*"
   ],
   "scripts": {
+    "start-backend": "yarn lerna run start --scope=backend",
+    "start-frontend": "yarn lerna run dev --scope=frontend",
     "prepare": "husky install"
   },
   "dependencies": {},
