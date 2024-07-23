@@ -1,7 +1,10 @@
 import gql from 'graphql-tag'
+import authTypeDefs from 'src/typeDefs/authPayload'
 
 export default gql`
+  ${authTypeDefs}
+
   type Mutation {
-    mutationTest(test: Boolean): Boolean
+    login(email: String!, password: String!): AuthPayload!
   }
 `

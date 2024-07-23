@@ -1,11 +1,12 @@
 import { GraphQLResolveInfo } from 'graphql'
-import { mutationTest } from './mutationTest'
+import { loginMutation } from './loginMutation'
+import { LoginArgs } from 'src/graphql/args'
 
 export default {
-  mutationTest: (
+  login: (
     parent: any,
-    args: any,
+    args: LoginArgs,
     context: any,
     info: GraphQLResolveInfo
-  ) => mutationTest(parent, args, context, info),
+  ) => loginMutation(parent, args, context, info),
 }
