@@ -1,32 +1,31 @@
 'use client'
 
-import { useState } from 'react'
 import { Container, Typography } from '@mui/material'
 import { useMutation } from '@apollo/client'
 import { LOGIN_MUTATION } from '@/apollo/mutations'
 import { TextField, Button } from '@/components'
 import { useRouter } from 'next/navigation'
+import { useLoginForm } from '@/hooks'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { form } = useLoginForm()
 
   const router = useRouter()
 
   const [login] = useMutation(LOGIN_MUTATION)
 
+  const email = form.control.register('email')
+  const password = form.control.register('password')
+
   const handleLogin = async () => {
+    const email = form.getValues('email')
+    const password = form.getValues('password')
+
     try {
       await login({ variables: { email, password } })
       router.push('/welcome')
     } catch (err) {}
   }
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setEmail(e.target.value)
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPassword(e.target.value)
 
   return (
     <Container maxWidth="sm">
@@ -34,18 +33,13 @@ export default function Login() {
         Login
       </Typography>
 
-      <TextField
-        type="email"
-        label="E-mail"
-        value={email}
-        onChange={handleEmailChange}
-      />
+      <TextField type="email" label="E-mail" inputRef={email.ref} {...email} />
 
       <TextField
         type="password"
         label="Senha"
-        value={password}
-        onChange={handlePasswordChange}
+        inputRef={password.ref}
+        {...password}
       />
 
       <Button onClick={handleLogin}>Login</Button>
