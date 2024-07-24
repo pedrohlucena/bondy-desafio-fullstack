@@ -8,7 +8,7 @@ import {
 import { buildSubgraphSchema } from '@apollo/subgraph'
 import resolvers from './resolvers'
 import { connection } from '../memoryDB/connection'
-import { env } from 'src/env'
+import { env } from 'src/configs'
 
 const { NODE_ENV = 'local' } = env
 

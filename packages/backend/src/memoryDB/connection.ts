@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { User } from 'src/models'
 import bcrypt from 'bcrypt'
-import { env } from 'src/env'
+import { env } from 'src/configs'
 
 export const connection = async () => {
   const connState = mongoose.connection.readyState

@@ -1,7 +1,7 @@
 import { MongoDbRepo, UserRepo } from 'src/repository'
 import { IUser } from 'src/models'
 import bcrypt from 'bcrypt'
-import { env } from 'src/env'
+import { env } from 'src/configs'
 import jwt from 'jsonwebtoken'
 
 export class UsersService {
