@@ -7,3 +7,5 @@ export { default as ParsedCookies } from './ParsedCookies'
 export { default as Context } from './Context'
 
 export { default as CookieToSet } from './CookieToSet'
+
+export { default as CookieOptions } from './CookieOptions'

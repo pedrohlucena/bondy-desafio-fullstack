@@ -56,4 +56,16 @@ export default class AuthService {
       user,
     }
   }
+
+  async logout() {
+    this.context.setCookies.push({
+      name: COOKIES.REFRESH_TOKEN,
+      value: '',
+      options: {
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: true,
+      },
+    })
+  }
 }
