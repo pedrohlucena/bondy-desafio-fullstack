@@ -1,15 +1,16 @@
-import { UsersService } from 'src/services'
+import { AuthService } from 'src/services'
 import { LoginArgs } from 'src/graphql/args'
+import { Context } from 'src/models'
 
 export const loginMutation = async (
   _parent,
   args: LoginArgs,
-  _context,
+  context: Context,
   _info
 ) => {
   const { email, password } = args
 
-  const service = new UsersService()
+  const service = new AuthService(context)
 
   const response = await service.login(email, password)
 

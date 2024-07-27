@@ -11,4 +11,9 @@ export class MongoDbRepo<T> {
     const cursor = await this.model.findOne<T>(params)
     return cursor
   }
+
+  async getById(id: string) {
+    const cursor = await this.model.findById(id)
+    return cursor
+  }
 }
