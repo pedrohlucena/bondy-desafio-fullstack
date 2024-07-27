@@ -23,7 +23,7 @@ export default function Login() {
 
     try {
       await login({ variables: { email, password } })
-      router.push('/welcome')
+      router.push('/')
     } catch (err) {}
   }
 

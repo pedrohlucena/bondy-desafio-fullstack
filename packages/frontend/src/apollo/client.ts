@@ -12,6 +12,7 @@ const uri = env.NEXT_PUBLIC_API_BASE_URL + '/local/desafio'
 const client = new ApolloClient({
   uri,
   cache: new InMemoryCache(),
+  credentials: 'include',
 })
 
 export default client
