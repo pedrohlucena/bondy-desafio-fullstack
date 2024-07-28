@@ -40,12 +40,10 @@ functions:
     reservedConcurrency: 10
     events:
       - http:
-          # private: true
           path: /desafio
           method: post
           cors: true
       - http:
-          # private: true
           path: /desafio
           method: get
           cors: true

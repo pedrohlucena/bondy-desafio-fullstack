@@ -1,7 +1,7 @@
 import { CookieToSet } from 'src/models'
 
 export interface Context {
-  headers: { Cookie: string }
+  headers: { authorization: string; Cookie: string }
   setCookies: CookieToSet[]
 }
 

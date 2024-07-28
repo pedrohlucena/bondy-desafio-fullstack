@@ -1,6 +1,7 @@
 import { UsersService } from 'src/services'
 import { UserArgs } from 'src/graphql/args'
 import { Context } from 'src/models'
+import { auth } from 'src/utils'
 
 export const userQuery = async (
   _parent,
@@ -8,8 +9,9 @@ export const userQuery = async (
   context: Context,
   _info
 ) => {
-  const service = new UsersService(context)
+  auth(context)
 
+  const service = new UsersService(context)
   const response = await service.getUserById(args.id)
 
   return response
