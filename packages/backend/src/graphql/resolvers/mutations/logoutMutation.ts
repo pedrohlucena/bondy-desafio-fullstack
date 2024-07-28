@@ -1,5 +1,6 @@
 import { AuthService } from 'src/services'
 import { Context } from 'src/models'
+import { ERRORS } from 'src/constants'
 
 export const logoutMutation = async (
   _parent,
@@ -7,9 +8,13 @@ export const logoutMutation = async (
   context: Context,
   _info
 ) => {
-  const service = new AuthService(context)
+  try {
+    const service = new AuthService(context)
 
-  await service.logout()
+    await service.logout()
 
-  return true
+    return true
+  } catch (error) {
+    throw ERRORS.INTERNAL_SERVER_ERROR
+  }
 }

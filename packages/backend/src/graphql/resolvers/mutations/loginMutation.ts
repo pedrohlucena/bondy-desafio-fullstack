@@ -1,6 +1,7 @@
 import { AuthService } from 'src/services'
 import { LoginArgs } from 'src/graphql/args'
 import { Context } from 'src/models'
+import { ERRORS } from 'src/constants'
 
 export const loginMutation = async (
   _parent,
@@ -8,11 +9,15 @@ export const loginMutation = async (
   context: Context,
   _info
 ) => {
-  const { email, password } = args
+  try {
+    const { email, password } = args
 
-  const service = new AuthService(context)
+    const service = new AuthService(context)
 
-  const response = await service.login(email, password)
+    const response = await service.login(email, password)
 
-  return response
+    return response
+  } catch (error) {
+    throw ERRORS.INTERNAL_SERVER_ERROR
+  }
 }
