@@ -1,10 +1,11 @@
 import { GraphQLError } from 'graphql'
+import { HTTP_STATUS_CODE } from 'src/constants'
 
 const ERRORS = {
   INTERNAL_SERVER_ERROR: new GraphQLError('Internal server error', {
     extensions: {
       code: '001',
-      http: { status: 500 },
+      http: { status: HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR },
     },
   }),
   UNAUTHORIZED: new GraphQLError(
@@ -12,14 +13,14 @@ const ERRORS = {
     {
       extensions: {
         code: '002',
-        http: { status: 401 },
+        http: { status: HTTP_STATUS_CODE.UNAUTHORIZED },
       },
     }
   ),
   USER_NOT_FOUND: new GraphQLError('User not found', {
     extensions: {
       code: '003',
-      http: { status: 500 },
+      http: { status: HTTP_STATUS_CODE.NOT_FOUND },
     },
   }),
 }
