@@ -16,6 +16,12 @@ const ERRORS = {
       },
     }
   ),
+  USER_NOT_FOUND: new GraphQLError('User not found', {
+    extensions: {
+      code: '003',
+      http: { status: 500 },
+    },
+  }),
 }
 
 export default ERRORS

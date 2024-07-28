@@ -3,7 +3,7 @@ import { Context, IUser } from 'src/models'
 import { parseCookies } from 'src/utils'
 import { env } from 'src/configs'
 import jwt, { JwtPayload } from 'jsonwebtoken'
-import { COOKIES } from 'src/constants'
+import { COOKIES, ERRORS } from 'src/constants'
 
 export default class UsersService {
   private userRepository: MongoDbRepo<IUser>
@@ -39,6 +39,10 @@ export default class UsersService {
     const userId = id || (await this.getUserIdFromCookies())
 
     const user = await this.userRepository.getById(userId)
+
+    if (!user) {
+      throw ERRORS.USER_NOT_FOUND
+    }
 
     return user
   }
