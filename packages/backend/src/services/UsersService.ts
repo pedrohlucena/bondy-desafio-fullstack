@@ -1,8 +1,7 @@
 import { MongoDbRepo, UserRepo } from 'src/repository'
-import { Context, IUser } from 'src/models'
-import { parseCookies } from 'src/utils'
+import { Context, IUser, UserIdPayload } from 'src/models'
+import { jwtVerify, parseCookies } from 'src/utils'
 import { env } from 'src/configs'
-import jwt, { JwtPayload } from 'jsonwebtoken'
 import { COOKIES, ERRORS } from 'src/constants'
 
 export default class UsersService {
@@ -15,14 +14,11 @@ export default class UsersService {
   }
 
   private async getUserIdFromRefreshToken(refreshToken: string) {
-    const payload = jwt.verify(
+    const payload = jwtVerify<UserIdPayload>(
       refreshToken,
       env.REFRESH_TOKEN_SECRET
-    ) as JwtPayload
-
-    const userId = payload.userId as string
-
-    return userId
+    )
+    return payload.userId
   }
 
   private async getUserIdFromCookies() {

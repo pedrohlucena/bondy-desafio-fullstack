@@ -1,9 +1,10 @@
 import { MongoDbRepo, UserRepo } from 'src/repository'
-import { Context, IUser } from 'src/models'
+import { Context, IUser, UserIdPayload } from 'src/models'
 import bcrypt from 'bcrypt'
 import { env } from 'src/configs'
 import jwt from 'jsonwebtoken'
 import { COOKIES, ERRORS } from 'src/constants'
+import { jwtVerify, parseCookies } from 'src/utils'
 
 export default class AuthService {
   private userRepository: MongoDbRepo<IUser>
@@ -29,6 +30,37 @@ export default class AuthService {
     }
   }
 
+  async refreshToken(refreshToken?: string) {
+    const usedRefreshToken =
+      refreshToken || (await this.getRefreshTokenFromCookies())
+
+    const userId = this.verifyRefreshToken(usedRefreshToken)
+
+    const access_token = this.generateAccessToken(userId)
+
+    return {
+      access_token,
+    }
+  }
+
+  private async getRefreshTokenFromCookies() {
+    const cookies = parseCookies(this.context.headers.Cookie)
+    return cookies[COOKIES.REFRESH_TOKEN]
+  }
+
+  private verifyRefreshToken(refreshToken: string) {
+    try {
+      const payload = jwtVerify<UserIdPayload>(
+        refreshToken,
+        env.REFRESH_TOKEN_SECRET
+      )
+
+      return payload.userId
+    } catch (err) {
+      throw ERRORS.INVALID_REFRESH_TOKEN
+    }
+  }
+
   async logout() {
     this.context.setCookies.push({
       name: COOKIES.REFRESH_TOKEN,
@@ -42,15 +74,23 @@ export default class AuthService {
   }
 
   private generateTokens(userId: string) {
+    const accessToken = this.generateAccessToken(userId)
+    const refreshToken = this.generateRefreshToken(userId)
+    return [accessToken, refreshToken]
+  }
+
+  private generateAccessToken(userId: string) {
     const accessToken = jwt.sign({ userId }, env.ACCESS_TOKEN_SECRET, {
       expiresIn: '15m',
     })
+    return accessToken
+  }
 
+  private generateRefreshToken(userId: string) {
     const refreshToken = jwt.sign({ userId }, env.REFRESH_TOKEN_SECRET, {
       expiresIn: '7d',
     })
-
-    return [accessToken, refreshToken]
+    return refreshToken
   }
 
   private setRefreshTokenCookie(refreshToken: string) {
