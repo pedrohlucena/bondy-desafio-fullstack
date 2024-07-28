@@ -1,5 +1,5 @@
 import { GraphQLError } from 'graphql'
-import { HTTP_STATUS_CODE } from 'src/constants'
+import HTTP_STATUS_CODE from './httpStatusCode'
 
 const ERRORS = {
   INTERNAL_SERVER_ERROR: new GraphQLError('Internal server error', {
