@@ -1,8 +1,7 @@
 import { UsersService } from 'src/services'
 import { UserArgs } from 'src/graphql/args'
 import { Context } from 'src/models'
-import { auth } from 'src/utils'
-import { ERRORS } from 'src/constants'
+import { auth, errorResponse } from 'src/utils'
 
 export const userQuery = async (
   _parent,
@@ -18,6 +17,6 @@ export const userQuery = async (
 
     return response
   } catch (error) {
-    throw ERRORS.INTERNAL_SERVER_ERROR
+    errorResponse(error)
   }
 }
