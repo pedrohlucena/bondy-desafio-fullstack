@@ -6,6 +6,7 @@ import { LOGIN_MUTATION } from '@/apollo/mutations'
 import { TextField, Button } from '@/components'
 import { useRouter } from 'next/navigation'
 import { useLoginForm } from '@/hooks'
+import { setAuthorizationHeader } from '@/common/utils'
 
 export default function Login() {
   const { form } = useLoginForm()
@@ -22,7 +23,12 @@ export default function Login() {
     const password = form.getValues('password')
 
     try {
-      await login({ variables: { email, password } })
+      const { data } = await login({ variables: { email, password } })
+
+      const accessToken = data.login.access_token
+
+      setAuthorizationHeader(accessToken)
+
       router.push('/')
     } catch (err) {}
   }

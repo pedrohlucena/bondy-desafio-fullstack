@@ -1,5 +1,5 @@
 import { env } from '@/configs'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev'
 
 if (env.NEXT_PUBLIC_NODE_ENV === 'local') {
@@ -9,10 +9,14 @@ if (env.NEXT_PUBLIC_NODE_ENV === 'local') {
 
 const uri = env.NEXT_PUBLIC_API_BASE_URL + '/local/desafio'
 
-const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri,
-  cache: new InMemoryCache(),
   credentials: 'include',
+})
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
 })
 
 export default client
