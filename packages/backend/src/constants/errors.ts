@@ -23,6 +23,12 @@ const ERRORS = {
       http: { status: HTTP_STATUS_CODE.NOT_FOUND },
     },
   }),
+  INCORRECT_CREDENTIAL: new GraphQLError('Incorrect email or password', {
+    extensions: {
+      code: '004',
+      http: { status: HTTP_STATUS_CODE.BAD_REQUEST },
+    },
+  }),
 }
 
 export default ERRORS

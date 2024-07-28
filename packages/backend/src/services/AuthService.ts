@@ -3,7 +3,7 @@ import { Context, IUser } from 'src/models'
 import bcrypt from 'bcrypt'
 import { env } from 'src/configs'
 import jwt from 'jsonwebtoken'
-import { COOKIES } from 'src/constants'
+import { COOKIES, ERRORS } from 'src/constants'
 
 export default class AuthService {
   private userRepository: MongoDbRepo<IUser>
@@ -38,14 +38,22 @@ export default class AuthService {
     })
   }
 
-  async login(email: string, password: string) {
-    const user = await this.userRepository.get({ email })
+  private async validateCredentials(user: IUser, password: string) {
+    if (!user) {
+      throw ERRORS.INCORRECT_CREDENTIAL
+    }
 
     const valid = await bcrypt.compare(password, user.password)
 
     if (!valid) {
-      throw new Error('Invalid credentials')
+      throw ERRORS.INCORRECT_CREDENTIAL
     }
+  }
+
+  async login(email: string, password: string) {
+    const user = await this.userRepository.get({ email })
+
+    await this.validateCredentials(user, password)
 
     const [accessToken, refreshToken] = this.generateTokens(user._id)
 
