@@ -14,6 +14,33 @@ export default class AuthService {
     this.context = context
   }
 
+  async login(email: string, password: string) {
+    const user = await this.userRepository.get({ email })
+
+    await this.validateCredentials(user, password)
+
+    const [accessToken, refreshToken] = this.generateTokens(user._id)
+
+    this.setRefreshTokenCookie(refreshToken)
+
+    return {
+      access_token: accessToken,
+      user,
+    }
+  }
+
+  async logout() {
+    this.context.setCookies.push({
+      name: COOKIES.REFRESH_TOKEN,
+      value: '',
+      options: {
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: true,
+      },
+    })
+  }
+
   private generateTokens(userId: string) {
     const accessToken = jwt.sign({ userId }, env.ACCESS_TOKEN_SECRET, {
       expiresIn: '15m',
@@ -48,32 +75,5 @@ export default class AuthService {
     if (!valid) {
       throw ERRORS.INCORRECT_CREDENTIAL
     }
-  }
-
-  async login(email: string, password: string) {
-    const user = await this.userRepository.get({ email })
-
-    await this.validateCredentials(user, password)
-
-    const [accessToken, refreshToken] = this.generateTokens(user._id)
-
-    this.setRefreshTokenCookie(refreshToken)
-
-    return {
-      access_token: accessToken,
-      user,
-    }
-  }
-
-  async logout() {
-    this.context.setCookies.push({
-      name: COOKIES.REFRESH_TOKEN,
-      value: '',
-      options: {
-        httpOnly: true,
-        expires: new Date(0),
-        sameSite: true,
-      },
-    })
   }
 }
