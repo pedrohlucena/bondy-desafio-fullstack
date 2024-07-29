@@ -7,6 +7,8 @@ export default function TextField({
   label,
   name,
   value,
+  helperText,
+  error,
   onChange,
   onBlur,
 }: TextFieldProps) {
@@ -17,6 +19,8 @@ export default function TextField({
       label={label}
       name={name}
       value={value}
+      error={error}
+      helperText={helperText}
       fullWidth
       margin="normal"
       onChange={onChange}

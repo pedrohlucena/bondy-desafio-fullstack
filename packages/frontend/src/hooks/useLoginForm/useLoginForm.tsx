@@ -13,13 +13,19 @@ function LoginFormProvider({ children }: PropsWithChildren) {
   const form = useForm<LoginFormModel>({
     defaultValues: { email: '', password: '' },
     resolver: zodResolver(loginSchema),
+    mode: 'onChange',
   })
+
+  const { formState } = form
+
+  const errors = formState.errors
 
   const context = useMemo(
     () => ({
       form,
+      errors,
     }),
-    [form, form.formState],
+    [form, errors, formState],
   )
 
   return <FormContext.Provider value={context}>{children}</FormContext.Provider>

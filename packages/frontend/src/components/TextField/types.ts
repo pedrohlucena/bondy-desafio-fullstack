@@ -6,6 +6,8 @@ export interface TextFieldProps {
   label?: string
   name?: string
   value?: string
+  helperText?: string
+  error?: boolean
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onBlur?: React.FocusEventHandler<HTMLInputElement>
 }

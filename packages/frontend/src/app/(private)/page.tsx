@@ -27,12 +27,12 @@ export default function Home() {
       {!loading && (
         <>
           <Typography variant="h4" gutterBottom>
-            Bem-vindo(a), {user.name}!
+            Bem-vindo(a), {user?.name}!
           </Typography>
 
-          <Typography variant="h6">Empresa: {user.company}</Typography>
+          <Typography variant="h6">Empresa: {user?.company}</Typography>
 
-          <Typography variant="h6">E-mail: {user.email}</Typography>
+          <Typography variant="h6">E-mail: {user?.email}</Typography>
 
           <Button theme="secondary" onClick={handleLogout}>
             Logout

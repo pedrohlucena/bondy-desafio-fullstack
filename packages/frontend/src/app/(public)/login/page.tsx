@@ -9,14 +9,16 @@ import { useLoginForm } from '@/hooks'
 import { setAuthorizationHeader } from '@/common/utils'
 
 export default function Login() {
-  const { form } = useLoginForm()
+  const { form, errors } = useLoginForm()
+
+  const { email, password } = form.watch()
 
   const router = useRouter()
 
   const [login] = useMutation(LOGIN_MUTATION)
 
-  const email = form.control.register('email')
-  const password = form.control.register('password')
+  const emailField = form.control.register('email')
+  const passwordField = form.control.register('password')
 
   const handleLogin = async () => {
     const email = form.getValues('email')
@@ -33,22 +35,36 @@ export default function Login() {
     } catch (err) {}
   }
 
+  const thereAreErrors = Object.keys(errors).length >= 1
+  const disableLogin = thereAreErrors || email === '' || password === ''
+
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" gutterBottom>
         Login
       </Typography>
 
-      <TextField type="email" label="E-mail" inputRef={email.ref} {...email} />
+      <TextField
+        type="email"
+        label="E-mail"
+        inputRef={emailField.ref}
+        error={!!errors.email}
+        helperText={errors.email?.message}
+        {...emailField}
+      />
 
       <TextField
         type="password"
         label="Senha"
-        inputRef={password.ref}
-        {...password}
+        inputRef={passwordField.ref}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+        {...passwordField}
       />
 
-      <Button onClick={handleLogin}>Login</Button>
+      <Button disabled={disableLogin} onClick={handleLogin}>
+        Login
+      </Button>
     </Container>
   )
 }
