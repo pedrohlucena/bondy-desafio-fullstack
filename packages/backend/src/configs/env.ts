@@ -6,6 +6,7 @@ const envSchema = z.object({
   ACCESS_TOKEN_SECRET: z.string(),
   REFRESH_TOKEN_SECRET: z.string(),
   APP_DOMAIN: z.string(),
+  PUBLIC_KEY: z.string(),
 })
 
 const parsedEnv = envSchema.safeParse(process.env)

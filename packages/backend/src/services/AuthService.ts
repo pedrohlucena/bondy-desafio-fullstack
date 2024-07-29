@@ -8,9 +8,9 @@ import { jwtVerify, parseCookies } from 'src/utils'
 
 export default class AuthService {
   private userRepository: MongoDbRepo<IUser>
-  private context: Context
+  private context?: Context
 
-  constructor(context: Context) {
+  constructor(context?: Context) {
     this.userRepository = new UserRepo()
     this.context = context
   }
@@ -43,6 +43,24 @@ export default class AuthService {
     }
   }
 
+  getPubkey() {
+    return {
+      public_key: env.PUBLIC_KEY,
+    }
+  }
+
+  logout() {
+    this.context.setCookies.push({
+      name: COOKIES.REFRESH_TOKEN,
+      value: '',
+      options: {
+        httpOnly: true,
+        expires: new Date(0),
+        sameSite: true,
+      },
+    })
+  }
+
   private async getRefreshTokenFromCookies() {
     const cookieString = this.context.headers.Cookie
 
@@ -63,18 +81,6 @@ export default class AuthService {
     } catch (err) {
       throw ERRORS.UNAUTHORIZED
     }
-  }
-
-  async logout() {
-    this.context.setCookies.push({
-      name: COOKIES.REFRESH_TOKEN,
-      value: '',
-      options: {
-        httpOnly: true,
-        expires: new Date(0),
-        sameSite: true,
-      },
-    })
   }
 
   private generateTokens(userId: string) {
