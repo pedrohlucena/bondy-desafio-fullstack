@@ -5,6 +5,7 @@ const envSchema = z.object({
   MONGODB_CONNECTION_STR: z.string(),
   ACCESS_TOKEN_SECRET: z.string(),
   REFRESH_TOKEN_SECRET: z.string(),
+  APP_DOMAIN: z.string(),
 })
 
 const parsedEnv = envSchema.safeParse(process.env)

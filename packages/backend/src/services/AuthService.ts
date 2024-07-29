@@ -103,8 +103,10 @@ export default class AuthService {
       value: refreshToken,
       options: {
         httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        domain: env.APP_DOMAIN,
         maxAge: 30 * 24 * 60 * 60,
-        sameSite: true,
       },
     })
   }
