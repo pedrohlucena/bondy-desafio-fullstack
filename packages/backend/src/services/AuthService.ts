@@ -57,7 +57,7 @@ export default class AuthService {
 
       return payload.userId
     } catch (err) {
-      throw ERRORS.INVALID_REFRESH_TOKEN
+      throw ERRORS.UNAUTHORIZED
     }
   }
 

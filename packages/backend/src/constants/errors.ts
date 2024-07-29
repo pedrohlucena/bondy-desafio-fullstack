@@ -29,12 +29,6 @@ const ERRORS = {
       http: { status: HTTP_STATUS_CODE.BAD_REQUEST },
     },
   }),
-  INVALID_REFRESH_TOKEN: new GraphQLError('Invalid refresh token', {
-    extensions: {
-      code: '005',
-      http: { status: HTTP_STATUS_CODE.BAD_REQUEST },
-    },
-  }),
 }
 
 export default ERRORS
