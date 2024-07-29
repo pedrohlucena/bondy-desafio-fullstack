@@ -5,6 +5,7 @@ import {
   UseFormGetValues,
   UseFormHandleSubmit,
   UseFormReset,
+  UseFormSetError,
   UseFormSetValue,
   UseFormWatch,
 } from 'react-hook-form'
@@ -14,6 +15,7 @@ type Form<T extends FieldValues> = {
   watch: UseFormWatch<T>
   getValues: UseFormGetValues<T>
   setValue: UseFormSetValue<T>
+  setError: UseFormSetError<T>
   reset: UseFormReset<T>
   handleSubmit: UseFormHandleSubmit<T>
   formState: FormState<T>

@@ -1,5 +1,6 @@
 enum ERRORS {
   UNAUTHORIZED = '002',
+  INVALID_CREDENTIAL = '004',
 }
 
 export default ERRORS
