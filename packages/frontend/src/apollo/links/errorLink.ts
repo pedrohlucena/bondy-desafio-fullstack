@@ -1,5 +1,4 @@
 import { ERRORS, RefreshTokenResponse } from '@/models'
-import { GraphQLError } from 'graphql'
 import {
   FetchResult,
   GraphQLRequest,
@@ -45,7 +44,10 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
 
     const code = err.extensions?.code
 
-    if (code === ERRORS.UNAUTHORIZED && refreshTokenRequest) return
+    if (code === ERRORS.UNAUTHORIZED && refreshTokenRequest) {
+      window.location.href = '/login'
+      return
+    }
 
     if (code === ERRORS.UNAUTHORIZED && !refreshTokenRequest) {
       const observable = new Observable<FetchResult>((observer) => {
