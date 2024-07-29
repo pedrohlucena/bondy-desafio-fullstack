@@ -44,7 +44,11 @@ export default class AuthService {
   }
 
   private async getRefreshTokenFromCookies() {
-    const cookies = parseCookies(this.context.headers.Cookie)
+    const cookieString = this.context.headers.Cookie
+
+    if (!cookieString) throw ERRORS.UNAUTHORIZED
+
+    const cookies = parseCookies(cookieString)
     return cookies[COOKIES.REFRESH_TOKEN]
   }
 
