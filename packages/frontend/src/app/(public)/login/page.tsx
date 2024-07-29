@@ -16,7 +16,7 @@ export default function Login() {
 
   const router = useRouter()
 
-  const [login] = useMutation(LOGIN_MUTATION)
+  const [login, { loading }] = useMutation(LOGIN_MUTATION)
 
   const emailField = form.control.register('email')
   const passwordField = form.control.register('password')
@@ -81,7 +81,7 @@ export default function Login() {
       />
 
       <Button disabled={disableLogin} onClick={handleLogin}>
-        Login
+        {loading ? 'Carregando...' : 'Login'}
       </Button>
     </Container>
   )
