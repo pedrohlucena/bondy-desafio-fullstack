@@ -4,8 +4,6 @@ import { auth, errorResponse } from 'src/utils'
 
 export const pubkeyQuery = async (_parent, _args, context: Context, _info) => {
   try {
-    auth(context)
-
     const service = new AuthService()
 
     const response = service.getPubkey()
